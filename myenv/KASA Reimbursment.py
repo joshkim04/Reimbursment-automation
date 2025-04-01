@@ -17,7 +17,6 @@ options = webdriver.FirefoxOptions()
 service = Service(GeckoDriverManager().install())
 driver = webdriver.Firefox(service=service, options=options)
 
-driver.get("https://sabo.studentlife.northeastern.edu/sabo-expense-reimbursement-voucher/")
 
 
 
@@ -115,13 +114,14 @@ count = 0
 print(len(reimbursments))
 
 while count < len(reimbursments):
+    driver.get("https://sabo.studentlife.northeastern.edu/sabo-expense-reimbursement-voucher/")
     # Wait for page to load
     WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, "choice_2_155_1")))
     enterinfo(reimbursments[count])
     count += 1
     driver.execute_script("window.open('about:blank', '_blank');")
     driver.switch_to.window(driver.window_handles[count])  # Switch to the new tab
-    driver.get("https://sabo.studentlife.northeastern.edu/sabo-expense-reimbursement-voucher/")
+    
 
 
 
