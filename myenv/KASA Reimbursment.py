@@ -44,7 +44,7 @@ def read_reimbursments(filename,reimbursments):
     with open(filename, newline='') as file:
         reader = csv.reader(file)
         for row in reader:
-            row = row[0].split(" | ")
+            row = row[0].split("	")
             temp = reimbursment(row[0], row[1], row[2], row[3], row[4], row[5])
             reimbursments.append(temp)
 
@@ -73,15 +73,15 @@ def enterinfo(data):
     #Click "I made a non travel purchase"
     driver.find_element(By.ID, "choice_2_13_0").click()
 
-    #Buisness Reason
-    driver.find_element(By.ID, "input_2_141").send_keys(data.reason)
+    #Expense description
+    driver.find_element(By.ID, "input_2_142").send_keys(data.reason)
 
     #Certify I am making only non travel purchases 
     driver.find_element(By.ID, "choice_2_156_1").click()
     #Budget index
     driver.find_element(By.ID, "input_2_16").send_keys("800162")
 
-
+    driver.find_element(By.ID, "input_2_142").send_keys("800162")
 
     #First and Last name in approvals
     driver.find_element(By.ID, "input_2_81_3").send_keys(data.name.split()[0])
@@ -105,6 +105,11 @@ def enterinfo(data):
     #Advisor Email
     driver.find_element(By.ID, "input_2_65").clear()
     driver.find_element(By.ID, "input_2_65").send_keys("john.park@northeastern.edu")
+
+    #City, also warps back up to the top
+    driver.find_element(By.ID, "input_2_94").send_keys("Boston")
+    #Zip code
+    driver.find_element(By.ID, "input_2_96").send_keys("02120")
 
 count = 0
 print(len(reimbursments))
