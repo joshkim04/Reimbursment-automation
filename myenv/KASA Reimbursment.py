@@ -44,7 +44,8 @@ def read_reimbursments(filename,reimbursments):
     with open(filename, newline='') as file:
         reader = csv.reader(file)
         for row in reader:
-            row = row[0].split(" | ")
+            print(row)
+            row = row[0].split("	")
             temp = reimbursment(row[0], row[1], row[2], row[3], row[4], row[5])
             reimbursments.append(temp)
 
