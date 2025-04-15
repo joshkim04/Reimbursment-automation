@@ -26,10 +26,13 @@ driver = webdriver.Firefox(service=service, options=options)
 
 
 class reimbursment:
-    def __init__(self, name, id, address, email, number, reason):
+    def __init__(self, name, id, address, zip, state, city, email, number, reason):
         self.name = name
         self.id = id
         self.address = address
+        self.zip = zip
+        self.state = state
+        self.city = city
         self.email = email
         self.number = number
         self.reason = reason
@@ -44,7 +47,7 @@ def read_reimbursments(filename,reimbursments):
         reader = csv.reader(file)
         for row in reader:
             row = row[0].split("	")
-            temp = reimbursment(row[0], row[1], row[2], row[3], row[4], row[5])
+            temp = reimbursment(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
             reimbursments.append(temp)
 
 
@@ -69,6 +72,12 @@ def enterinfo(data):
     driver.find_element(By.ID, "input_2_76").send_keys(data.id)
     #Address
     driver.find_element(By.ID, "input_2_97").send_keys(data.address)
+    #City is jhandled at the bottom
+
+    #State
+    driver.find_element(By.ID, "input_2_95").send_keys(data.state)
+    #Zip code
+    driver.find_element(By.ID, "input_2_96").send_keys(data.zip)
     #Click "I made a non travel purchase"
     driver.find_element(By.ID, "choice_2_13_0").click()
 
@@ -80,7 +89,6 @@ def enterinfo(data):
     #Budget index
     driver.find_element(By.ID, "input_2_16").send_keys("800162")
 
-    driver.find_element(By.ID, "input_2_142").send_keys("800162")
 
     #First and Last name in approvals
     driver.find_element(By.ID, "input_2_81_3").send_keys(data.name.split()[0])
@@ -106,9 +114,8 @@ def enterinfo(data):
     driver.find_element(By.ID, "input_2_65").send_keys("john.park@northeastern.edu")
 
     #City, also warps back up to the top
-    driver.find_element(By.ID, "input_2_94").send_keys("Boston")
-    #Zip code
-    driver.find_element(By.ID, "input_2_96").send_keys("02120")
+    driver.find_element(By.ID, "input_2_94").send_keys(data.city)
+\
 
 count = 0
 print(len(reimbursments))
@@ -120,7 +127,7 @@ while count < len(reimbursments):
     enterinfo(reimbursments[count])
     count += 1
     driver.execute_script("window.open('about:blank', '_blank');")
-    driver.switch_to.window(driver.window_handles[count])  # Switch to the new tab
+    driver.switch_to.window(driver.window_handles[count])
     
 
 
